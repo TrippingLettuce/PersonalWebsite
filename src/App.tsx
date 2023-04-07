@@ -1,5 +1,6 @@
 // App.tsx
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 
 interface HalfCircleProps {
@@ -14,6 +15,29 @@ const HalfCircle: React.FC<HalfCircleProps> = ({ left, direction }) => (
   ></div>
 );
 
+const Brain: React.FC = () => (
+  <div>
+    <h1>Brain</h1>
+    <div className="sub-buttons-container">
+      <button className="custom-button">Resume</button>
+      <button className="custom-button">Projects</button>
+      <button className="custom-button">Blog</button>
+      <button className="custom-button">Heart</button>
+    </div>
+  </div>
+);
+
+const Heart: React.FC = () => (
+  <div>
+    <h1>Heart</h1>
+    <div className="sub-buttons-container">
+      <button className="custom-button">Music</button>
+      <button className="custom-button">Running</button>
+      <button className="custom-button">Reading</button>
+      <button className="custom-button">Movies</button>
+    </div>
+  </div>
+);
 const App: React.FC = () => {
   const [leftOffset, setLeftOffset] = useState(0);
   const [rightOffset, setRightOffset] = useState(75);
@@ -31,17 +55,22 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
-      <div className="buttons-container">
-        <button className="custom-button">Brain</button>
-        <button className="custom-button">Heart</button>
-        <button className="custom-button">Thoughts</button>
+    <Router>
+      <div className="App">
+        <div className="buttons-container">
+          <Link to="/brain" className="custom-button">Brain</Link>
+          <Link to="/heart" className="custom-button">Heart</Link>
+        </div>
+        <div className="circle-container" onClick={handleClick}>
+          <HalfCircle left={leftOffset} direction="left" />
+          <HalfCircle left={rightOffset} direction="right" />
+        </div>
+        <Routes>
+          <Route path="/brain" element={<Brain />} />
+          <Route path="/heart" element={<Heart />} />
+        </Routes>
       </div>
-      <div className="circle-container" onClick={handleClick}>
-        <HalfCircle left={leftOffset} direction="left" />
-        <HalfCircle left={rightOffset} direction="right" />
-      </div>
-    </div>
+    </Router>
   );
 };
 
